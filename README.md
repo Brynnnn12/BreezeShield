@@ -4,11 +4,12 @@
   <img src="https://img.shields.io/badge/Laravel-11.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel">
   <img src="https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP">
   <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/Chart.js-4.x-FF6384?style=for-the-badge&logo=chart.js&logoColor=white" alt="Chart.js">
   <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="License">
 </p>
 
 <p align="center">
-  <strong>🚀 Aplikasi Laravel siap pakai dengan autentikasi, manajemen role, dan UI yang indah</strong>
+  <strong>🚀 Aplikasi Laravel siap pakai dengan autentikasi, manajemen role, chart interaktif, dan UI yang indah</strong>
 </p>
 
 ## 📋 Tentang BreezeShield
@@ -19,6 +20,7 @@ BreezeShield adalah aplikasi Laravel yang telah dikonfigurasi sebelumnya dan men
 
 -   🔐 **Sistem Autentikasi Lengkap** - Menggunakan Laravel Breeze
 -   👥 **Manajemen Role & Permission** - Menggunakan Spatie Laravel Permission
+-   📊 **Chart Interaktif** - Menggunakan Chart.js untuk visualisasi data
 -   🎨 **UI Dashboard yang Indah** - Desain modern dan responsif
 -   🔔 **Integrasi Sweet Alert** - Alert dan notifikasi yang cantik
 -   📱 **Responsif Mobile** - Bekerja sempurna di semua perangkat
@@ -28,11 +30,13 @@ BreezeShield adalah aplikasi Laravel yang telah dikonfigurasi sebelumnya dan men
 ## 🛠️ Stack Teknologi
 
 -   **Backend**: Laravel 11.x
--   **Frontend**: Blade Templates + Tailwind CSS
+-   **Frontend**: Blade Templates + Tailwind CSS + Alpine.js
+-   **Charts**: Chart.js 4.x
 -   **Autentikasi**: Laravel Breeze
 -   **Manajemen Role**: Spatie Laravel Permission
 -   **Alert**: SweetAlert2
 -   **Database**: MySQL/PostgreSQL/SQLite
+-   **Build Tool**: Vite
 -   **Styling**: Tailwind CSS + Komponen Custom
 
 ## 📦 Yang Sudah Disediakan
@@ -54,12 +58,25 @@ BreezeShield adalah aplikasi Laravel yang telah dikonfigurasi sebelumnya dan men
 
 ### 🎨 Komponen UI
 
--   Layout dashboard modern
--   Navigasi responsif
--   Halaman welcome yang indah
--   Notifikasi alert
--   Komponen form
--   Tabel data siap pakai
+-   **Layout Components** (`resources/views/components/layout/`)
+    -   Layout dashboard modern
+    -   Navigation responsif
+    -   Sidebar dan header
+-   **Auth Components** (`resources/views/components/auth/`)
+    -   Form login dan register
+    -   Komponen verifikasi email
+-   **Form Components** (`resources/views/components/form/`)
+    -   Input fields yang konsisten
+    -   Button styles
+    -   Form validation display
+-   **UI Components** (`resources/views/components/ui/`)
+    -   Cards dan panels
+    -   Tables siap pakai
+    -   Modals dan dialogs
+-   **Home Components** (`resources/views/components/home/`)
+    -   Hero section
+    -   Feature highlights
+    -   Call-to-action buttons
 
 ### 🔔 Sistem Notifikasi
 
@@ -67,6 +84,14 @@ BreezeShield adalah aplikasi Laravel yang telah dikonfigurasi sebelumnya dan men
 -   Alert Success/Error/Warning
 -   Notifikasi toast
 -   Dialog konfirmasi
+
+### 📊 Komponen Chart
+
+-   Chart Todo Statistics (Doughnut)
+-   Chart Progress Line
+-   Chart Bar untuk statistik
+-   Chart Umum yang customizable
+-   Responsive dan interaktif
 
 ## 🚀 Panduan Cepat
 
@@ -191,6 +216,7 @@ BreezeShield menyediakan fondasi yang solid. Untuk menambahkan operasi CRUD Anda
     ```
 
 5. **Buat views menggunakan komponen yang ada**
+
     ```blade
     {{-- resources/views/model-anda/index.blade.php --}}
     <x-app-layout>
@@ -228,26 +254,137 @@ BreezeShield menyediakan fondasi yang solid. Untuk menambahkan operasi CRUD Anda
         ->middleware(['auth', 'permission:kelola postingan']);
     ```
 
+### Menggunakan Komponen Chart
+
+BreezeShield menyediakan komponen chart siap pakai untuk visualisasi data:
+
+1. **Chart Todo Statistics (Doughnut)**
+
+    ```blade
+    {{-- resources/views/dashboard.blade.php --}}
+    <x-app-layout>
+        <x-slot name="header">
+            <h2>Dashboard</h2>
+        </x-slot>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <x-chart.todo-stats :data="[
+                'completed' => $completedTodos,
+                'pending' => $pendingTodos,
+                'in_progress' => $inProgressTodos
+            ]" />
+        </div>
+    </x-app-layout>
+    ```
+
+2. **Chart Progress Line**
+
+    ```blade
+    <x-chart.progress-chart :data="$progressData" :labels="$progressLabels" />
+    ```
+
+3. **Chart Bar untuk Statistik**
+
+    ```blade
+    <x-chart.bar-chart
+        :data="$barData"
+        :labels="$barLabels"
+        title="Statistik Bulanan"
+    />
+    ```
+
+4. **Chart Umum Customizable**
+
+    ```blade
+    <x-chart.chart
+        type="line"
+        :data="$customData"
+        :options="$customOptions"
+    />
+    ```
+
+5. **Controller Example**
+
+    ```php
+    // app/Http/Controllers/DashboardController.php
+    public function index()
+    {
+        $completedTodos = auth()->user()->todos()->where('status', 'completed')->count();
+        $pendingTodos = auth()->user()->todos()->where('status', 'pending')->count();
+        $inProgressTodos = auth()->user()->todos()->where('status', 'in_progress')->count();
+
+        return view('dashboard', compact('completedTodos', 'pendingTodos', 'inProgressTodos'));
+    }
+    ```
+
 ## 📁 Struktur Project
 
 ```
-breezeshield/
+laravel-12/
 ├── app/
-│   ├── Http/Controllers/     # Controllers
-│   ├── Models/              # Model Eloquent
-│   ├── Policies/            # Policy otorisasi
-│   └── Providers/           # Service providers
+│   ├── Http/
+│   │   ├── Controllers/          # Controllers aplikasi
+│   │   └── Requests/             # Form request validation
+│   ├── Models/                   # Model Eloquent
+│   ├── Policies/                 # Policy otorisasi
+│   └── Providers/                # Service providers
+├── bootstrap/
+│   ├── app.php                  # Bootstrap aplikasi
+│   ├── providers.php            # Daftar providers
+│   └── cache/                   # Cache bootstrap
+├── config/                       # File konfigurasi
 ├── database/
-│   ├── migrations/          # Migrasi database
-│   └── seeders/            # Seeder database
+│   ├── factories/               # Model factories
+│   ├── migrations/              # Migrasi database
+│   └── seeders/                 # Database seeders
+├── public/
+│   ├── build/
+│   │   └── assets/              # Asset yang di-build Vite
+│   └── index.php                # Entry point aplikasi
 ├── resources/
-│   ├── views/              # Template Blade
-│   ├── css/                # Stylesheet
-│   └── js/                 # File JavaScript
+│   ├── css/
+│   │   └── app.css              # Stylesheet utama
+│   ├── js/
+│   │   ├── app.js               # JavaScript utama
+│   │   └── bootstrap.js         # Bootstrap JS
+│   └── views/
+│       ├── auth/                # View autentikasi
+│       ├── components/          # Komponen Blade
+│       │   ├── auth/            # Komponen autentikasi
+│       │   ├── chart/           # Komponen chart
+│       │   ├── dashboard/       # Komponen dashboard
+│       │   ├── form/            # Komponen form
+│       │   ├── home/            # Komponen halaman utama
+│       │   ├── layout/          # Komponen layout
+│       │   ├── navigation/      # Komponen navigasi
+│       │   ├── sweet/           # Komponen SweetAlert
+│       │   └── ui/              # Komponen UI umum
+│       ├── dashboard/           # View dashboard
+│       ├── home/                # View halaman utama
+│       ├── profile/             # View profil
+│       └── welcome.blade.php    # Halaman welcome
 ├── routes/
-│   ├── web.php            # Routes web
-│   └── auth.php           # Routes autentikasi
-└── public/                # Asset publik
+│   ├── auth.php                 # Routes autentikasi
+│   ├── console.php              # Routes console
+│   └── web.php                  # Routes web
+├── storage/
+│   ├── app/                     # Storage aplikasi
+│   ├── framework/               # Cache framework
+│   └── logs/                    # File log
+├── tests/
+│   ├── Feature/                 # Feature tests
+│   ├── Unit/                    # Unit tests
+│   └── Pest.php                 # Konfigurasi Pest
+├── vendor/                      # Dependensi Composer
+├── artisan                      # Laravel CLI
+├── composer.json                # Konfigurasi Composer
+├── composer.lock                # Lock file Composer
+├── package.json                 # Konfigurasi NPM
+├── phpunit.xml                  # Konfigurasi PHPUnit
+├── postcss.config.js            # Konfigurasi PostCSS
+├── tailwind.config.js           # Konfigurasi Tailwind
+├── vite.config.js               # Konfigurasi Vite
+└── README.md                    # Dokumentasi project
 ```
 
 ## 🔧 Kustomisasi
@@ -256,17 +393,34 @@ breezeshield/
 
 -   Edit `resources/css/app.css` untuk style custom
 -   Modifikasi konfigurasi Tailwind di `tailwind.config.js`
--   Update komponen di `resources/views/components/`
+-   Update komponen di folder `resources/views/components/` sesuai kebutuhan:
+    -   `auth/` - Komponen autentikasi
+    -   `chart/` - Komponen chart
+    -   `dashboard/` - Komponen dashboard
+    -   `form/` - Komponen form
+    -   `home/` - Komponen halaman utama
+    -   `layout/` - Komponen layout
+    -   `navigation/` - Komponen navigasi
+    -   `sweet/` - Komponen SweetAlert
+    -   `ui/` - Komponen UI umum
 
 ### Dashboard
 
 -   Kustomisasi layout dashboard di `resources/views/dashboard.blade.php`
--   Tambah item navigasi baru di `resources/views/layouts/navigation.blade.php`
+-   Tambah item navigasi baru di `resources/views/components/navigation/`
+-   Modifikasi komponen dashboard di `resources/views/components/dashboard/`
 
 ### Halaman Welcome
 
 -   Modifikasi halaman welcome di `resources/views/welcome.blade.php`
--   Update styling dan konten sesuai kebutuhan
+-   Update komponen home di `resources/views/components/home/`
+-   Sesuaikan styling dan konten sesuai kebutuhan
+
+### Chart Components
+
+-   Kustomisasi chart di `resources/views/components/chart/`
+-   Modifikasi `resources/js/app.js` untuk konfigurasi Chart.js
+-   Tambahkan chart baru dengan mengikuti pola komponen yang ada
 
 ## 📚 Dokumentasi & Sumber Daya
 
@@ -274,6 +428,7 @@ breezeshield/
 -   [Dokumentasi Laravel Breeze](https://laravel.com/docs/starter-kits#laravel-breeze)
 -   [Spatie Laravel Permission](https://spatie.be/docs/laravel-permission)
 -   [Dokumentasi Tailwind CSS](https://tailwindcss.com/docs)
+-   [Dokumentasi Chart.js](https://www.chartjs.org/docs/latest/)
 -   [Dokumentasi SweetAlert2](https://sweetalert2.github.io/)
 
 ## 🤝 Kontribusi
@@ -296,7 +451,75 @@ Kontribusi sangat diterima! Silakan buat Pull Request. Untuk perubahan besar, si
 -   Desain dashboard custom
 -   Halaman welcome responsif
 
-## 🐛 Issues & Support
+## 🧪 Testing
+
+BreezeShield menggunakan [Pest](https://pestphp.com/) untuk testing:
+
+### Menjalankan Tests
+
+```bash
+# Jalankan semua tests
+php artisan test
+
+# Jalankan dengan coverage
+php artisan test --coverage
+
+# Jalankan specific test file
+php artisan test tests/Feature/AuthTest.php
+```
+
+### Struktur Testing
+
+-   `tests/Feature/` - Feature tests untuk testing fitur end-to-end
+-   `tests/Unit/` - Unit tests untuk testing komponen individual
+-   `tests/Pest.php` - Konfigurasi Pest
+
+### Menambah Test Baru
+
+```bash
+# Buat feature test
+php artisan make:test UserProfileTest
+
+# Buat unit test
+php artisan make:test UserModelTest --unit
+```
+
+## � Development Workflow
+
+### Development Server
+
+```bash
+# Jalankan Laravel development server
+php artisan serve
+
+# Jalankan Vite development server (hot reload)
+npm run dev
+
+# Jalankan keduanya secara bersamaan
+npm run dev & php artisan serve
+```
+
+### Build untuk Production
+
+```bash
+# Build assets untuk production
+npm run build
+
+# Build dan optimize
+npm run build -- --mode production
+```
+
+### Code Quality
+
+```bash
+# Jalankan PHP CS Fixer
+./vendor/bin/pint
+
+# Jalankan static analysis (jika ada)
+# composer run phpstan
+```
+
+## �🐛 Issues & Support
 
 Jika Anda mengalami masalah atau membutuhkan dukungan:
 

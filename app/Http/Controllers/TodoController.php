@@ -15,9 +15,7 @@ class TodoController extends Controller
     {
         $todos = Todo::paginate(10);
 
-        return view('dashboard.todos.index', [
-            'todos' => $todos
-        ]);
+        return view('dashboard.todos.index', compact('todos'));
     }
 
     /**
@@ -25,7 +23,7 @@ class TodoController extends Controller
      */
     public function create()
     {
-        //
+
         return view('dashboard.todos.create');
     }
 
@@ -45,7 +43,7 @@ class TodoController extends Controller
     public function show(Todo $todo)
     {
         //
-        return view('todos.show', compact('todo'));
+        // return view('todos.show', compact('todo'));
     }
 
     /**

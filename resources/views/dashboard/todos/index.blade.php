@@ -17,7 +17,7 @@
         </div>
 
         <!-- Todos Table -->
-        <x-table :headers="['Title', 'Description', 'Status', 'Created', 'Actions']" striped hover>
+        <x-table :headers="['Title', 'Description', 'completed', 'Created', 'Actions']" striped hover>
             @forelse($todos ?? [] as $todo)
                 <tr>
                     <td class="px-6 py-4 whitespace-nowrap">
@@ -30,8 +30,8 @@
                     <td class="px-6 py-4 whitespace-nowrap">
                         <span
                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
-                            {{ ($todo['status'] ?? 'pending') === 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                            {{ ucfirst($todo['status'] ?? 'pending') }}
+                            {{ ($todo['completed'] ?? '0') === 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                            {{ ucfirst($todo['completed'] ?? '0') }}
                         </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -72,10 +72,10 @@
                             <div class="flex items-center space-x-4">
                                 <span
                                     class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium 
-                                    {{ ($todo['status'] ?? 'pending') === 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                                    {{ ($todo['completed'] ?? '0') === '1' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
                                     <i
-                                        class="fas {{ ($todo['status'] ?? 'pending') === 'completed' ? 'fa-check-circle' : 'fa-clock' }} mr-2"></i>
-                                    {{ ucfirst($todo['status'] ?? 'pending') }}
+                                        class="fas {{ ($todo['completed'] ?? '0') === '1' ? 'fa-check-circle' : 'fa-clock' }} mr-2"></i>
+                                    {{ ucfirst($todo['completed'] ?? '0') }}
                                 </span>
                                 <span class="text-sm text-gray-500">
                                     <i class="fas fa-calendar-alt mr-1"></i>
@@ -109,9 +109,9 @@
                             <div class="bg-purple-50 rounded-lg p-4">
                                 <h5 class="text-sm font-medium text-purple-900 mb-1">
                                     <i class="fas fa-clock mr-1"></i>
-                                    Status
+                                    completed
                                 </h5>
-                                <p class="text-purple-700">{{ ucfirst($todo['status'] ?? 'pending') }}</p>
+                                <p class="text-purple-700">{{ ucfirst($todo['completed'] ?? '0') }}</p>
                             </div>
                         </div>
 

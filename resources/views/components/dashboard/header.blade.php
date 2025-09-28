@@ -1,24 +1,59 @@
-            <header class="bg-white shadow-sm">
-                <div class="flex items-center justify-between p-4">
-                    <div class="flex items-center">
-                        <button @click="isSidebarOpen = !isSidebarOpen" class="md:hidden text-gray-500 mr-4">
-                            <i class="fas fa-bars text-xl"></i>
-                        </button>
-                        <h1 class="text-2xl font-semibold text-gray-800"
-                            x-text="activeTab.charAt(0).toUpperCase() + activeTab.slice(1)"></h1>
-                    </div>
+<!-- Header -->
+<header class="">
+    <div class="flex items-center justify-between px-6 py-4">
+        <!-- Left Section -->
+        <div class="flex items-center space-x-4">
+            <!-- Mobile Menu Button -->
+            <button @click="isSidebarOpen = !isSidebarOpen"
+                class="md:hidden p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fas fa-bars text-lg"></i>
+            </button>
 
-                    <div class="flex items-center">
-                        <div class="relative mr-4">
-                            <input type="text" placeholder="Search..."
-                                class="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-                        </div>
-                        <button class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center relative">
-                            <i class="fas fa-bell text-gray-600"></i>
-                            <span
-                                class="absolute top-0 right-0 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">3</span>
-                        </button>
+            <!-- Breadcrumbs -->
+            <nav class="flex items-center space-x-2 text-sm">
+                <a href="{{ route('dashboard') }}" class="text-gray-500 hover:text-gray-700 transition-colors">
+                    <i class="fas fa-home mr-1"></i>
+                    Dashboard
+                </a>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+                <span class="text-gray-900 font-medium"
+                    x-text="activeTab.charAt(0).toUpperCase() + activeTab.slice(1)"></span>
+            </nav>
+        </div>
+
+        <!-- Right Section -->
+        <div class="flex items-center space-x-4">
+            <!-- User Menu -->
+            <div class="relative" x-data="{ open: false }">
+                <button @click="open = !open" @click.away="open = false"
+                    class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <div
+                        class="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-sm">
+                        <span class="font-bold text-white text-sm">{{ substr(Auth::user()->name, 0, 1) }}</span>
                     </div>
+                    <i class="fas fa-chevron-down text-gray-400 text-sm transition-transform"
+                        :class="{ 'rotate-180': open }"></i>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <div x-show="open" x-transition
+                    class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-[100]">
+                    <a href="{{ route('profile.edit') }}"
+                        class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-user mr-3 text-gray-500"></i>
+                        Profile
+                    </a>
+                    <hr class="my-1 border-gray-200">
+                    <form action="{{ route('logout') }}" method="POST" class="w-full">
+                        @csrf
+                        <button type="submit"
+                            class="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                            <i class="fas fa-sign-out-alt mr-3"></i>
+                            Logout
+                        </button>
+                    </form>
                 </div>
-            </header>
+            </div>
+        </div>
+    </div>
+</header>

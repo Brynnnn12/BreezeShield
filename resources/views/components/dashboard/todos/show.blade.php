@@ -1,4 +1,4 @@
-                <x-sweet-modal title="Detail Todo: {{ $todo['title'] ?? 'Sample Todo' }}"
+                <x-sweet.modal title="Detail Todo: {{ $todo['title'] ?? 'Sample Todo' }}"
                     function-name="showTodoModal{{ $todo['id'] ?? 1 }}" width="600" :show-cancel-button="false"
                     confirm-text="Tutup">
                     <div class="space-y-6">
@@ -69,4 +69,4 @@
                             </div>
                         </div>
                     </div>
-                </x-sweet-modal>
+                </x-sweet.modal>

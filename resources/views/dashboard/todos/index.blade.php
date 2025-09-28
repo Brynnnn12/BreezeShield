@@ -1,23 +1,23 @@
 <x-layout.dashboard title="Manajemen Todos">
     <!-- Flash Messages -->
-    <x-flash-messages />
+    <x-ui.flash-messages />
 
 
-    <x-card>
+    <x-ui.card>
         <x-slot name="header">
             <h3 class="text-lg font-semibold text-gray-800">Manajemen Todos</h3>
-            <x-button variant="primary" icon="fas fa-plus" onclick="location.href='{{ route('todos.create') }}'">
+            <x-ui.button variant="primary" icon="fas fa-plus" onclick="location.href='{{ route('todos.create') }}'">
                 Tambah Todo
-            </x-button>
+            </x-ui.button>
         </x-slot>
 
         <!-- Search Bar -->
         <div class="mb-6">
-            <x-input name="search" placeholder="Cari berdasarkan title atau description..." icon="fas fa-search" />
+            <x-form.input name="search" placeholder="Cari berdasarkan title atau description..." icon="fas fa-search" />
         </div>
 
         <!-- Todos Table -->
-        <x-table :headers="['Title', 'Description', 'completed', 'Created', 'Actions']" striped hover>
+        <x-ui.table :headers="['Title', 'Description', 'completed', 'Created', 'Actions']" striped hover>
             @forelse($todos ?? [] as $todo)
                 <tr>
                     <td class="px-6 py-4 whitespace-nowrap">
@@ -38,29 +38,29 @@
                         {{ $todo['created_at'] ?? now()->format('M d, Y') }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                        <x-button size="xs" variant="outline" icon="fas fa-eye"
+                        <x-ui.button size="xs" variant="outline" icon="fas fa-eye"
                             onclick="showTodoModal{{ $todo['id'] ?? 1 }}()">
                             View
-                        </x-button>
-                        <x-button size="xs" variant="outline" icon="fas fa-edit"
-                            onclick="location.href='{{ route('todos.edit', $todo['id'] ?? 1) }}'">
-                            Edit
-                        </x-button>
-                        <x-button size="xs" variant="danger" icon="fas fa-trash"
-                            onclick="sweetConfirm{{ $todo['id'] ?? 1 }}()">
-                            Delete
-                        </x-button>
+                            </x-button>
+                            <x-ui.button size="xs" variant="outline" icon="fas fa-edit"
+                                onclick="location.href='{{ route('todos.edit', $todo['id'] ?? 1) }}'">
+                                Edit
+                                </x-button>
+                                <x-ui.button size="xs" variant="danger" icon="fas fa-trash"
+                                    onclick="sweetConfirm{{ $todo['id'] ?? 1 }}()">
+                                    Delete
+                                </x-ui.button>
                     </td>
                 </tr>
 
                 <!-- Generate sweet-confirm for each todo -->
-                <x-sweet-confirm title="Delete Todo?"
+                <x-sweet.sweet-confirm title="Delete Todo?"
                     text="Apakah Anda yakin ingin menghapus todo ini? Aksi ini tidak bisa dibatalkan!"
                     confirm-text="Ya, hapus!" cancel-text="Batal" icon="warning"
                     action="{{ route('todos.destroy', $todo['id'] ?? 1) }}" method="DELETE" :params="['id' => $todo['id'] ?? 1]" />
 
                 <!-- Generate sweet-modal for viewing todo details -->
-                <x-sweet-modal title="Detail Todo: {{ $todo['title'] ?? 'Sample Todo' }}"
+                <x-sweet.sweet-modal title="Detail Todo: {{ $todo['title'] ?? 'Sample Todo' }}"
                     function-name="showTodoModal{{ $todo['id'] ?? 1 }}" width="600" :show-cancel-button="false"
                     confirm-text="Tutup">
                     <div class="space-y-6">
@@ -131,7 +131,7 @@
                             </div>
                         </div>
                     </div>
-                </x-sweet-modal>
+                </x-sweet.sweet-modal>
             @empty
                 <tr>
                     <td colspan="5" class="px-6 py-12 text-center">
@@ -139,15 +139,15 @@
                             <i class="fas fa-clipboard-list text-4xl mb-4"></i>
                             <p class="text-lg font-medium">No todos found</p>
                             <p class="mt-2">Get started by creating your first todo.</p>
-                            <x-button variant="primary" icon="fas fa-plus" class="mt-4"
+                            <x-ui.button variant="primary" icon="fas fa-plus" class="mt-4"
                                 onclick="location.href='{{ route('todos.create') }}'">
                                 Create Todo
-                            </x-button>
+                            </x-ui.button>
                         </div>
                     </td>
                 </tr>
             @endforelse
-        </x-table>
+        </x-ui.table>
 
         @if (!empty($todos))
             <x-slot name="footer">
@@ -159,5 +159,5 @@
             </x-slot>
         @endif
 
-    </x-card>
+    </x-ui.card>
 </x-layout.dashboard>

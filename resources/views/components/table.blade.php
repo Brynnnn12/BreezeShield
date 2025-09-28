@@ -20,11 +20,6 @@
             </thead>
         @endif
 
-        @isset($header)
-            <thead class="bg-gray-50">
-                {{ $header }}
-            </thead>
-        @endisset
 
         <tbody class="bg-white divide-y divide-gray-200 {{ $striped ? '' : 'divide-y-0' }}">
             {{ $slot }}

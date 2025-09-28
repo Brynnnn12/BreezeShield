@@ -22,17 +22,15 @@
         </div>
 
         <!-- Right Section -->
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-4 z-50">
             <!-- User Menu -->
             <div class="relative" x-data="{ open: false }">
                 <button @click="open = !open" @click.away="open = false"
                     class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <div
-                        class="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-sm">
+                        class="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center shadow-sm">
                         <span class="font-bold text-white text-sm">{{ substr(Auth::user()->name, 0, 1) }}</span>
                     </div>
-                    <i class="fas fa-chevron-down text-gray-400 text-sm transition-transform"
-                        :class="{ 'rotate-180': open }"></i>
                 </button>
 
                 <!-- Dropdown Menu -->
